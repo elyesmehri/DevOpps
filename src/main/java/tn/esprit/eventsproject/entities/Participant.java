@@ -17,6 +17,8 @@ import java.util.Set;
 public class Participant implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
     int idPart;
     String nom;
     String prenom;
@@ -24,5 +26,4 @@ public class Participant implements Serializable {
     Tache tache;
     @ManyToMany
     Set<Event> events;
-
 }

@@ -1,32 +1,32 @@
 version: '3.8'
-services:
-  app:
-    image: docker.io/mehri_elyes/eventsprojects:latest
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
 
+services:
   mysql:
     image: mysql:8
+    container_name: my-mysql
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: my_db
+      MYSQL_ROOT_PASSWORD: elyesmehri
+      MYSQL_DATABASE: db
+      MYSQL_USER: elyesmehri
+      MYSQL_PASSWORD:
     ports:
       - "3306:3306"
-
-  prometheus:
-    image: prom/prometheus:latest
     volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+      - mysql_data:/var/lib/mysql
 
-  grafana:
-    image: grafana/grafana:latest
-    volumes:
-      - ./monitoring/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-    ports:
-      - "3000:3000"
+  springboot-app:
+    image: elyesmehri/devopps:latest
+    container_name: eventsProject
+    restart: always
     depends_on:
-      - prometheus
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db
+      SPRING_DATASOURCE_USERNAME: elyesmehri
+      SPRING_DATASOURCE_PASSWORD:
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:

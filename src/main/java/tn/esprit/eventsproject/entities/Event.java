@@ -18,6 +18,8 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idEvent;
+    private int id;
+    private String name;
     String description;
     LocalDate dateDebut;
     LocalDate dateFin;
